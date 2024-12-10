@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuow1thpyuago"]
+
+[ext_resource type="Texture2D" uid="uid://ddxs66mj2qs5d" path="res://scenes/stages/Yog_Island/assets/monochrome_overlaps.jpeg" id="1_hbjry"]
+
+[node name="Background" type="Node3D"]
+metadata/_edit_group_ = true
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("1_hbjry")

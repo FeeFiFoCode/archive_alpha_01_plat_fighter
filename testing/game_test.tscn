@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://8io16tibykj2"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_i5w7x"]
+[ext_resource type="PackedScene" uid="uid://byxpbl2h01bee" path="res://UI/pause_menu.tscn" id="3_td6ed"]
+[ext_resource type="PackedScene" uid="uid://jxib16tdwo66" path="res://zzz_archive/scenes/stages/Giganta_test.tscn" id="4_u07rh"]
+
+[node name="GameManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_i5w7x")
+
+[node name="Giganta" parent="." instance=ExtResource("4_u07rh")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" node_paths=PackedStringArray("game_manager") instance=ExtResource("3_td6ed")]
+game_manager = NodePath("../..")

@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://c80xnkh30w071"]
+
+[ext_resource type="Script" path="res://scripts/general_player_scripts/player_v0.gd" id="1_cwc1o"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3dsf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pnyp6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_b35wc"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_rbtgt"]
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fuqcr"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ld34t"]
+size = Vector2(0.2, 0.2)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_cwc1o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l3dsf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_pnyp6")
+
+[node name="GPUParticles3D_per_frame" type="GPUParticles3D" parent="."]
+amount = 15
+lifetime = 0.25
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_b35wc")
+draw_pass_1 = SubResource("QuadMesh_rbtgt")
+
+[node name="GPUParticles3D_per_5frame" type="GPUParticles3D" parent="."]
+amount = 2
+lifetime = 0.5
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_fuqcr")
+draw_pass_1 = SubResource("QuadMesh_ld34t")

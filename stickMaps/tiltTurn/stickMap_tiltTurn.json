@@ -1,0 +1,146 @@
+[
+    {
+        "name": "Enter Wait ( inc middle )",
+        "color": [
+            38,
+            162,
+            105,
+            255
+        ],
+        "quadrants": [
+            true,
+            true,
+            true,
+            true
+        ],
+        "displayMode": 0,
+        "minX": 0,
+        "minY": 0,
+        "maxX": 22,
+        "maxY": 52,
+        "angleMin": 0,
+        "angleMax": 90,
+        "magnitudeMin": 0,
+        "magnitudeMax": 80
+    },
+    {
+        "name": "Enter walkSlow",
+        "color": [
+            249,
+            240,
+            107,
+            255
+        ],
+        "quadrants": [
+            true,
+            false,
+            false,
+            true
+        ],
+        "displayMode": 0,
+        "minX": 23,
+        "minY": 0,
+        "maxX": 63,
+        "maxY": 52,
+        "angleMin": 0,
+        "angleMax": 90,
+        "magnitudeMin": 0,
+        "magnitudeMax": 80
+    },
+    {
+        "name": "Dash Fwd",
+        "color": [
+            192,
+            28,
+            40,
+            255
+        ],
+        "quadrants": [
+            true,
+            false,
+            false,
+            true
+        ],
+        "displayMode": 0,
+        "minX": 64,
+        "minY": 0,
+        "maxX": 80,
+        "maxY": 52,
+        "angleMin": 0,
+        "angleMax": 90,
+        "magnitudeMin": 0,
+        "magnitudeMax": 80
+    },
+    {
+        "name": "Tilt Turn",
+        "color": [
+            181,
+            131,
+            90,
+            255
+        ],
+        "quadrants": [
+            false,
+            true,
+            true,
+            false
+        ],
+        "displayMode": 0,
+        "minX": 23,
+        "minY": 0,
+        "maxX": 80,
+        "maxY": 52,
+        "angleMin": 0,
+        "angleMax": 90,
+        "magnitudeMin": 0,
+        "magnitudeMax": 80
+    },
+    {
+        "name": "Jump",
+        "color": [
+            28,
+            113,
+            216,
+            255
+        ],
+        "quadrants": [
+            true,
+            true,
+            false,
+            false
+        ],
+        "displayMode": 0,
+        "minX": 0,
+        "minY": 53,
+        "maxX": 80,
+        "maxY": 80,
+        "angleMin": 0,
+        "angleMax": 90,
+        "magnitudeMin": 0,
+        "magnitudeMax": 80
+    },
+    {
+        "name": "Squat ( Enter Crouch )",
+        "color": [
+            145,
+            65,
+            172,
+            255
+        ],
+        "quadrants": [
+            false,
+            false,
+            true,
+            true
+        ],
+        "displayMode": 0,
+        "minX": 0,
+        "minY": 53,
+        "maxX": 80,
+        "maxY": 80,
+        "angleMin": 0,
+        "angleMax": 90,
+        "magnitudeMin": 0,
+        "magnitudeMax": 80
+    }
+]

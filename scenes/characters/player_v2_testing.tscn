@@ -1,0 +1,156 @@
+[gd_scene load_steps=28 format=3 uid="uid://did06yoppaavo"]
+
+[ext_resource type="Script" path="res://scripts/general_player_scripts/player.gd" id="1_l6q6y"]
+[ext_resource type="Script" path="res://scripts/state_logic/state_machine.gd" id="2_t3n3b"]
+[ext_resource type="Script" path="res://scripts/state_logic/state.gd" id="3_1y7dw"]
+[ext_resource type="Script" path="res://scenes/move_test.gd" id="4_gfoos"]
+[ext_resource type="Script" path="res://scenes/idle_test.gd" id="5_vnq7u"]
+[ext_resource type="Script" path="res://scenes/landed_test.gd" id="6_32gie"]
+[ext_resource type="Script" path="res://scenes/jump_test.gd" id="7_orf2a"]
+[ext_resource type="Script" path="res://scenes/fall_test.gd" id="8_i0x7h"]
+[ext_resource type="Script" path="res://scenes/WaveGround.gd" id="9_eceki"]
+[ext_resource type="Script" path="res://scenes/WaveAir.gd" id="10_hxmwt"]
+[ext_resource type="Script" path="res://scenes/turn_test.gd" id="11_xavha"]
+[ext_resource type="Script" path="res://scenes/JumpAir.gd" id="12_5ww55"]
+[ext_resource type="Script" path="res://scenes/StateMachineAttack.gd" id="13_i5n6h"]
+[ext_resource type="Script" path="res://scenes/nonce_test.gd" id="14_5xh67"]
+[ext_resource type="Script" path="res://scenes/ParamActive.gd" id="15_vnfbn"]
+[ext_resource type="Script" path="res://scenes/ParamDefault.gd" id="16_d6h8t"]
+[ext_resource type="Script" path="res://testing/PlayerMoveInterface.gd" id="17_12375"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6pj4y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_46vud"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_qyp47"]
+material = SubResource("StandardMaterial3D_46vud")
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ghny3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u6lp3"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_kdhls"]
+material = SubResource("StandardMaterial3D_u6lp3")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_rv00n"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3dsf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2si8s"]
+shading_mode = 0
+diffuse_mode = 3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pnyp6"]
+lightmap_size_hint = Vector2i(17, 14)
+material = SubResource("StandardMaterial3D_2si8s")
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_l6q6y")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("2_t3n3b")
+starting_state = NodePath("Idle")
+
+[node name="State" type="Node" parent="StateMachine"]
+script = ExtResource("3_1y7dw")
+
+[node name="Move" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "jump_state", "idle_state", "waveGround_state")]
+script = ExtResource("4_gfoos")
+fall_state = NodePath("../Fall")
+jump_state = NodePath("../Jump")
+idle_state = NodePath("../Idle")
+waveGround_state = NodePath("../WaveGround")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "jump_state", "move_state", "waveGround_state")]
+script = ExtResource("5_vnq7u")
+fall_state = NodePath("../Fall")
+jump_state = NodePath("../Jump")
+move_state = NodePath("../Move")
+waveGround_state = NodePath("../WaveGround")
+
+[node name="Landed" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "idle_state")]
+script = ExtResource("6_32gie")
+fall_state = NodePath("../Fall")
+idle_state = NodePath("../Idle")
+
+[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "idle_state", "move_state")]
+script = ExtResource("7_orf2a")
+fall_state = NodePath("../Fall")
+idle_state = NodePath("../Idle")
+move_state = NodePath("../Move")
+
+[node name="Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "move_state", "landed_state", "waveAir_state")]
+script = ExtResource("8_i0x7h")
+idle_state = NodePath("../Idle")
+move_state = NodePath("../Move")
+landed_state = NodePath("../Landed")
+waveAir_state = NodePath("../WaveAir")
+
+[node name="WaveGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "idle_state", "jump_state")]
+script = ExtResource("9_eceki")
+fall_state = NodePath("../Fall")
+idle_state = NodePath("../Idle")
+jump_state = NodePath("../Jump")
+
+[node name="WaveAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "landed_state", "jump_state")]
+script = ExtResource("10_hxmwt")
+fall_state = NodePath("../Fall")
+landed_state = NodePath("../Landed")
+jump_state = NodePath("../Jump")
+
+[node name="Turn" type="Node" parent="StateMachine"]
+script = ExtResource("11_xavha")
+
+[node name="JumpAir" type="Node" parent="StateMachine"]
+script = ExtResource("12_5ww55")
+
+[node name="GPUParticles3D_per_frame" type="GPUParticles3D" parent="."]
+amount = 15
+lifetime = 0.25
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_6pj4y")
+draw_pass_1 = SubResource("QuadMesh_qyp47")
+
+[node name="GPUParticles3D_per_5frame" type="GPUParticles3D" parent="."]
+amount = 5
+lifetime = 0.5
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_ghny3")
+draw_pass_1 = SubResource("QuadMesh_kdhls")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.25, 0.45, 0)
+mesh = SubResource("SphereMesh_rv00n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l3dsf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_pnyp6")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2, 5)
+
+[node name="Particles" type="Node" parent="."]
+
+[node name="StateMachineAttack" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("13_i5n6h")
+starting_state = NodePath("Nonce")
+
+[node name="Nonce" type="Node" parent="StateMachineAttack"]
+script = ExtResource("14_5xh67")
+
+[node name="InputManager" type="Node" parent="."]
+
+[node name="ParamActive" type="Node" parent="."]
+script = ExtResource("15_vnfbn")
+
+[node name="ParamDefault" type="Node" parent="."]
+script = ExtResource("16_d6h8t")
+
+[node name="MoveComponent" type="Node" parent="."]
+script = ExtResource("17_12375")

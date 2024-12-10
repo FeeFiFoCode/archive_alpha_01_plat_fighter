@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://hsped6g3f67e"]
+
+[ext_resource type="Script" path="res://scenes/menus/controller_menu.gd" id="1_f78ce"]
+
+[sub_resource type="Theme" id="Theme_fdyqv"]
+default_font_size = 100
+
+[node name="ControllerMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_fdyqv")
+script = ExtResource("1_f78ce")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="RETURN" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "RETURN"
+
+[node name="GCC" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GCC"
+
+[node name="boxx" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "boxx
+"
+
+[node name="Keyboard" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Keyboard ( Typing )"
+
+[node name="MIDI_Keyboard" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "MIDI Keyboard ( Piano )"
+
+[node name="Switch Pro Controller" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Switch Pro Controller"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/RETURN" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GCC" to="." method="_on_gcc_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/boxx" to="." method="_on_boxx_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Keyboard" to="." method="_on_keyboard_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MIDI_Keyboard" to="." method="_on_midi_keyboard_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Switch Pro Controller" to="." method="_on_switch_pro_controller_pressed"]

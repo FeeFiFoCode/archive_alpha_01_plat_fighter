@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://c47v0mhmcxkfj"]
+
+[ext_resource type="PackedScene" uid="uid://c80xnkh30w071" path="res://scenes/characters/player.tscn" id="1_dgget"]
+[ext_resource type="PackedScene" uid="uid://c5rdh1ck12x6a" path="res://scenes/camera_with_fps_and_cock.tscn" id="2_q81pa"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_3fxcp"]
+
+[sub_resource type="Sky" id="Sky_hx0s0"]
+sky_material = SubResource("PhysicalSkyMaterial_3fxcp")
+
+[sub_resource type="Environment" id="Environment_8340b"]
+background_mode = 2
+sky = SubResource("Sky_hx0s0")
+
+[sub_resource type="BoxMesh" id="BoxMesh_cs5us"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_swuwc"]
+
+[node name="Stage" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8340b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.912093, 0.370878, -0.174747, -0.154424, 0.705616, 0.691563, 0.37979, -0.603785, 0.700859, 2.56328, 10.8756, 17.2662)
+shadow_enabled = true
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Level"]
+transform = Transform3D(25, 0, 0, 0, 0.1, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.212324)
+mesh = SubResource("BoxMesh_cs5us")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor"]
+shape = SubResource("BoxShape3D_swuwc")
+
+[node name="PlayableUnits" type="Node3D" parent="."]
+
+[node name="Player" parent="PlayableUnits" instance=ExtResource("1_dgget")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D2" parent="PlayableUnits/Player" instance=ExtResource("2_q81pa")]

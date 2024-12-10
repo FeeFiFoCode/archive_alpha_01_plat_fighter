@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://coqc7wqnxf46t"]
+
+[ext_resource type="Script" path="res://general_assets/clock_time.gd" id="1_g7hgs"]
+
+[node name="Clock" type="Node3D"]
+script = ExtResource("1_g7hgs")
+
+[node name="LabelClock" type="Label3D" parent="."]
+font_size = 120
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 480.0
+one_shot = true
+autostart = true

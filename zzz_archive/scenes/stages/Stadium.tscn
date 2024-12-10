@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://bdfek1oput4qk"]
+
+[ext_resource type="PackedScene" uid="uid://c80xnkh30w071" path="res://scenes/characters/player.tscn" id="1_bmig2"]
+[ext_resource type="PackedScene" uid="uid://be53ltqm0ivbq" path="res://scenes/labels/fps.tscn" id="2_0gd2q"]
+[ext_resource type="PackedScene" uid="uid://coqc7wqnxf46t" path="res://general_assets/clock_time.tscn" id="3_0jn6h"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cs5us"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_swuwc"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_3fxcp"]
+
+[sub_resource type="Sky" id="Sky_hx0s0"]
+sky_material = SubResource("PhysicalSkyMaterial_3fxcp")
+
+[sub_resource type="Environment" id="Environment_8340b"]
+background_mode = 2
+sky = SubResource("Sky_hx0s0")
+
+[node name="World" type="Node3D"]
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Level"]
+transform = Transform3D(35, 0, 0, 0, 0.2, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+mesh = SubResource("BoxMesh_cs5us")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+shape = SubResource("BoxShape3D_swuwc")
+
+[node name="PlatLeft" type="StaticBody3D" parent="Level"]
+transform = Transform3D(5, 0, 0, 0, 0.2, 0, 0, 0, 5, -10, 4, -0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/PlatLeft"]
+mesh = SubResource("BoxMesh_cs5us")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/PlatLeft"]
+shape = SubResource("BoxShape3D_swuwc")
+
+[node name="PlatRight" type="StaticBody3D" parent="Level"]
+transform = Transform3D(5, 0, 0, 0, 0.2, 0, 0, 0, 5, 10, 4, -0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/PlatRight"]
+mesh = SubResource("BoxMesh_cs5us")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/PlatRight"]
+shape = SubResource("BoxShape3D_swuwc")
+
+[node name="Player" parent="." instance=ExtResource("1_bmig2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D2" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 5, 10)
+
+[node name="FPS" parent="Player/Camera3D2" instance=ExtResource("2_0gd2q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 5, -7.5)
+font_size = 80
+
+[node name="Clock" parent="Player/Camera3D2" instance=ExtResource("3_0jn6h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -7.5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8340b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.912093, 0.370878, -0.174747, -0.154424, 0.705616, 0.691563, 0.37979, -0.603785, 0.700859, 2.56328, 10.8756, 17.2662)
+shadow_enabled = true

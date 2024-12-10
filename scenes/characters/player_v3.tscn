@@ -1,0 +1,288 @@
+[gd_scene load_steps=38 format=3 uid="uid://bg7yl27tigclf"]
+
+[ext_resource type="Script" path="res://scenes/characters/player_v3.gd" id="1_1fo4y"]
+[ext_resource type="Script" path="res://scripts/_state_logic_v3/_state.gd" id="3_0rjud"]
+[ext_resource type="Script" path="res://scripts/_state_machine.gd" id="4_cxser"]
+[ext_resource type="Script" path="res://scripts/_state_logic_v3/_grounded/_idle.gd" id="4_voonu"]
+[ext_resource type="Script" path="res://scenes/characters/_walkSlow.gd" id="5_lq8sn"]
+[ext_resource type="Script" path="res://scripts/states/_error.gd" id="7_q7ly5"]
+[ext_resource type="Script" path="res://scripts/states/_fall.gd" id="8_2dvh5"]
+[ext_resource type="Script" path="res://scripts/states/_shortHop.gd" id="9_rekhe"]
+[ext_resource type="Script" path="res://scripts/states/_fullHop.gd" id="10_fc4js"]
+[ext_resource type="Script" path="res://scripts/states/_jumpSuper.gd" id="11_savnh"]
+[ext_resource type="Script" path="res://scripts/states/_tiltTurn.gd" id="12_0k6fq"]
+[ext_resource type="Script" path="res://scripts/states/_dash.gd" id="13_svi6s"]
+[ext_resource type="Script" path="res://scripts/states/_run.gd" id="14_ee1th"]
+[ext_resource type="Script" path="res://scripts/states/_dashBack.gd" id="15_auxvt"]
+[ext_resource type="Script" path="res://scenes/ParamActive.gd" id="15_iqmxd"]
+[ext_resource type="Script" path="res://scenes/ParamDefault.gd" id="16_jtj4j"]
+[ext_resource type="Script" path="res://scripts/states/_walkMid.gd" id="17_fmla7"]
+[ext_resource type="Script" path="res://scripts/states/_walkFast.gd" id="18_nkin4"]
+[ext_resource type="Script" path="res://scripts/states/_squat.gd" id="19_yjrb1"]
+[ext_resource type="Script" path="res://scripts/states/_squatWait.gd" id="20_7rg3w"]
+[ext_resource type="Script" path="res://scripts/states/_squatRv.gd" id="21_5f6tk"]
+[ext_resource type="Script" path="res://scripts/states/_jumpSquat.gd" id="22_qs2lr"]
+[ext_resource type="Script" path="res://scripts/states/_jumpSquatSuper.gd" id="23_f1x2g"]
+[ext_resource type="Script" path="res://scripts/states/_skid.gd" id="24_f1667"]
+[ext_resource type="Script" path="res://scripts/states/_turnRun.gd" id="25_yhuxo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2si8s"]
+shading_mode = 0
+diffuse_mode = 3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pnyp6"]
+lightmap_size_hint = Vector2i(17, 14)
+material = SubResource("StandardMaterial3D_2si8s")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6pj4y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_46vud"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_qyp47"]
+material = SubResource("StandardMaterial3D_46vud")
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ghny3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u6lp3"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_kdhls"]
+material = SubResource("StandardMaterial3D_u6lp3")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4nwmo"]
+color = Color(0.117647, 0.470588, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ger72"]
+albedo_color = Color(0.2, 0.505882, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_w6f4l"]
+material = SubResource("StandardMaterial3D_ger72")
+radius = 0.2
+height = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3dsf"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_1fo4y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_pnyp6")
+
+[node name="Body" type="Node3D" parent="."]
+visible = false
+
+[node name="ParticleHolder" type="Node3D" parent="."]
+
+[node name="GPUParticles3D_per_frame" type="GPUParticles3D" parent="ParticleHolder"]
+amount = 15
+lifetime = 0.25
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_6pj4y")
+draw_pass_1 = SubResource("QuadMesh_qyp47")
+
+[node name="GPUParticles3D_per_5frame" type="GPUParticles3D" parent="ParticleHolder"]
+amount = 5
+lifetime = 0.5
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_ghny3")
+draw_pass_1 = SubResource("QuadMesh_kdhls")
+
+[node name="GPUParticles3D_per_30frame" type="GPUParticles3D" parent="ParticleHolder"]
+amount = 1
+lifetime = 0.5
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_4nwmo")
+draw_pass_1 = SubResource("SphereMesh_w6f4l")
+
+[node name="Paramaters" type="Node" parent="."]
+
+[node name="Active" type="Node" parent="Paramaters"]
+script = ExtResource("15_iqmxd")
+
+[node name="Default" type="Node" parent="Paramaters"]
+script = ExtResource("16_jtj4j")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2, 8.18219)
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("4_cxser")
+starting_state = NodePath("_Idle")
+
+[node name="_State" type="Node" parent="StateMachine"]
+script = ExtResource("3_0rjud")
+
+[node name="_Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateJumpSquat", "stateTiltTurn", "stateSquat", "stateDash", "stateDashBack", "stateFall")]
+script = ExtResource("4_voonu")
+stateIdle = NodePath(".")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateSquat = NodePath("../_Squat")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath("../_DashBack")
+stateFall = NodePath("../_Fall")
+
+[node name="_Error" type="Node" parent="StateMachine"]
+script = ExtResource("7_q7ly5")
+
+[node name="_Fall" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle")]
+script = ExtResource("8_2dvh5")
+stateIdle = NodePath("../_Idle")
+
+[node name="_ShortHop" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateFall")]
+script = ExtResource("9_rekhe")
+stateFall = NodePath("../_Fall")
+
+[node name="_FullHop" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateFall")]
+script = ExtResource("10_fc4js")
+stateFall = NodePath("../_Fall")
+
+[node name="_JumpSuper" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateFall")]
+script = ExtResource("11_savnh")
+stateIdle = NodePath("../_Idle")
+stateFall = NodePath("../_Fall")
+
+[node name="_TiltTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateJumpSquat", "stateTiltTurn", "stateSquat", "stateDash")]
+script = ExtResource("12_0k6fq")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath(".")
+stateSquat = NodePath("../_Squat")
+stateDash = NodePath("../_Dash")
+
+[node name="_Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateWalkMid", "stateWalkFast", "stateJumpSquat", "stateTiltTurn", "stateDash", "stateDashBack", "stateRun", "stateSquat")]
+script = ExtResource("13_svi6s")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateWalkMid = NodePath("../_WalkMid")
+stateWalkFast = NodePath("../_WalkFast")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDash = NodePath(".")
+stateDashBack = NodePath("../_DashBack")
+stateRun = NodePath("../_Run")
+stateSquat = NodePath("../_Squat")
+
+[node name="_Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateSkid", "stateTurnRun", "stateRun", "stateJumpSquat", "stateSquat")]
+script = ExtResource("14_ee1th")
+stateSkid = NodePath("../_Skid")
+stateTurnRun = NodePath("../_TurnRun")
+stateRun = NodePath(".")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateSquat = NodePath("../_Squat")
+
+[node name="_DashBack" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateWalkMid", "stateWalkFast", "stateJumpSquat", "stateTiltTurn", "stateDash", "stateDashBack", "stateRun", "stateSquat")]
+script = ExtResource("15_auxvt")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateWalkMid = NodePath("../_WalkMid")
+stateWalkFast = NodePath("../_WalkFast")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath(".")
+stateRun = NodePath("../_Run")
+stateSquat = NodePath("../_Squat")
+
+[node name="_WalkSlow" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateWalkMid", "stateWalkFast", "stateJumpSquatSquat", "stateTiltTurn", "stateDash", "stateDashBack", "stateSquat")]
+script = ExtResource("5_lq8sn")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath(".")
+stateWalkMid = NodePath("../_WalkMid")
+stateWalkFast = NodePath("../_WalkFast")
+stateJumpSquatSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath("../_DashBack")
+stateSquat = NodePath("../_Squat")
+
+[node name="_WalkMid" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateWalkMid", "stateWalkFast", "stateJumpSquatSquat", "stateTiltTurn", "stateDash", "stateDashBack", "stateSquat")]
+script = ExtResource("17_fmla7")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateWalkMid = NodePath(".")
+stateWalkFast = NodePath("../_WalkFast")
+stateJumpSquatSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath("../_DashBack")
+stateSquat = NodePath("../_Squat")
+
+[node name="_WalkFast" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateWalkMid", "stateWalkFast", "stateJumpSquat", "stateTiltTurn", "stateDash", "stateDashBack", "stateSquat")]
+script = ExtResource("18_nkin4")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateWalkMid = NodePath("../_WalkMid")
+stateWalkFast = NodePath(".")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath("../_DashBack")
+stateSquat = NodePath("../_Squat")
+
+[node name="_Squat" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateJumpSquatSuper", "stateSquatWait", "stateSquatRv")]
+script = ExtResource("19_yjrb1")
+stateJumpSquatSuper = NodePath("../_JumpSquatSuper")
+stateSquatWait = NodePath("../_SquatWait")
+stateSquatRv = NodePath("../_SquatRv")
+
+[node name="_SquatWait" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateJumpSquat", "stateWalkSlow", "stateDash", "stateDashBack", "stateSquatWait", "stateSquatRv")]
+script = ExtResource("20_7rg3w")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath("../_DashBack")
+stateSquatWait = NodePath(".")
+stateSquatRv = NodePath("../_SquatRv")
+
+[node name="_SquatRv" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateIdle", "stateWalkSlow", "stateTiltTurn", "stateJumpSquat")]
+script = ExtResource("21_5f6tk")
+stateIdle = NodePath("../_Idle")
+stateWalkSlow = NodePath("../_WalkSlow")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateJumpSquat = NodePath("../_JumpSquat")
+
+[node name="_JumpSquat" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateFall", "stateFullHop", "stateShortHop")]
+script = ExtResource("22_qs2lr")
+stateFall = NodePath("../_Fall")
+stateFullHop = NodePath("../_FullHop")
+stateShortHop = NodePath("../_ShortHop")
+
+[node name="_JumpSquatSuper" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateError", "stateFall", "stateJumpSuper")]
+script = ExtResource("23_f1x2g")
+stateError = NodePath("../_Error")
+stateFall = NodePath("../_Fall")
+stateJumpSuper = NodePath("../_JumpSuper")
+
+[node name="_Skid" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateSkid", "stateTurnRun", "stateJumpSquat", "stateSquat", "stateIdle", "stateTiltTurn", "stateDash", "stateDashBack", "stateWalkSlow")]
+script = ExtResource("24_f1667")
+stateSkid = NodePath(".")
+stateTurnRun = NodePath("../_TurnRun")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateSquat = NodePath("../_Squat")
+stateIdle = NodePath("../_Idle")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDash = NodePath("../_Dash")
+stateDashBack = NodePath("../_DashBack")
+stateWalkSlow = NodePath("../_WalkSlow")
+
+[node name="_TurnRun" type="Node" parent="StateMachine" node_paths=PackedStringArray("stateJumpSquat", "stateSquat", "stateIdle", "stateTiltTurn", "stateDashBack", "stateRun", "stateWalkSlow")]
+script = ExtResource("25_yhuxo")
+stateJumpSquat = NodePath("../_JumpSquat")
+stateSquat = NodePath("../_Squat")
+stateIdle = NodePath("../_Idle")
+stateTiltTurn = NodePath("../_TiltTurn")
+stateDashBack = NodePath("../_DashBack")
+stateRun = NodePath("../_Run")
+stateWalkSlow = NodePath("../_WalkSlow")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l3dsf")
+
+[node name="Head" type="CSGBox3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.25, 0.75, 0)

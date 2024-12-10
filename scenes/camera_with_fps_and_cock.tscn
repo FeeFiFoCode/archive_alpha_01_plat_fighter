@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5rdh1ck12x6a"]
+
+[ext_resource type="PackedScene" uid="uid://be53ltqm0ivbq" path="res://scenes/labels/fps.tscn" id="1_weui8"]
+[ext_resource type="PackedScene" uid="uid://coqc7wqnxf46t" path="res://general_assets/clock_time.tscn" id="2_rwve7"]
+
+[node name="Camera3D2" type="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 5, 10)
+
+[node name="FPS" parent="." instance=ExtResource("1_weui8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 5, -7.5)
+font_size = 80
+
+[node name="Clock" parent="." instance=ExtResource("2_rwve7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -7.5)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://epkp6aybjsmi"]
+
+[ext_resource type="Script" path="res://testing/midi_test.gd" id="1_nqb4a"]
+
+[node name="midi_test" type="Node3D"]
+script = ExtResource("1_nqb4a")

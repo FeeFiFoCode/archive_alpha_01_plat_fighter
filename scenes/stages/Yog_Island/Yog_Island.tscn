@@ -1,0 +1,75 @@
+[gd_scene load_steps=14 format=3 uid="uid://dhcfrafwa14oo"]
+
+[ext_resource type="Material" uid="uid://dmpm377rj7u2k" path="res://materials/dark_120s_to_150s.tres" id="1_71era"]
+[ext_resource type="Material" uid="uid://cdudpwywek4mh" path="res://materials/noisy_red.tres" id="1_ekx6e"]
+[ext_resource type="PackedScene" uid="uid://c80xnkh30w071" path="res://scenes/characters/player.tscn" id="1_ntm8p"]
+[ext_resource type="PackedScene" uid="uid://be53ltqm0ivbq" path="res://scenes/labels/fps.tscn" id="2_6ahe1"]
+[ext_resource type="PackedScene" uid="uid://coqc7wqnxf46t" path="res://general_assets/clock_time.tscn" id="3_kfa7k"]
+[ext_resource type="PackedScene" uid="uid://cuow1thpyuago" path="res://scenes/stages/Yog_Island/background.tscn" id="6_xb4xh"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_3fxcp"]
+
+[sub_resource type="Sky" id="Sky_hx0s0"]
+sky_material = SubResource("PhysicalSkyMaterial_3fxcp")
+
+[sub_resource type="Environment" id="Environment_8340b"]
+background_color = Color(0.5, 0.420833, 0.025, 1)
+background_energy_multiplier = 0.7
+sky = SubResource("Sky_hx0s0")
+
+[sub_resource type="BoxMesh" id="BoxMesh_cs5us"]
+material = ExtResource("1_ekx6e")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_swuwc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c2mox"]
+material = ExtResource("1_71era")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nqlnq"]
+
+[node name="Stage" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8340b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.912093, 0.370878, -0.174747, -0.154424, 0.705616, 0.691563, 0.37979, -0.603785, 0.700859, 2.56328, 10.8756, 17.2662)
+shadow_enabled = true
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Level"]
+transform = Transform3D(15, 0, 0, 0, 2, 0, 0, 0, 10, 0, -1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Floor"]
+mesh = SubResource("BoxMesh_cs5us")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Floor"]
+shape = SubResource("BoxShape3D_swuwc")
+
+[node name="LargeWall" type="StaticBody3D" parent="Level"]
+transform = Transform3D(15, 0, 0, 0, 10, 0, 0, 0, 10, 0, -7, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/LargeWall"]
+mesh = SubResource("BoxMesh_c2mox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/LargeWall"]
+shape = SubResource("BoxShape3D_nqlnq")
+
+[node name="PlayableUnits" type="Node3D" parent="."]
+
+[node name="Player" parent="PlayableUnits" instance=ExtResource("1_ntm8p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D2" type="Camera3D" parent="PlayableUnits/Player"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 5, 10)
+
+[node name="FPS" parent="PlayableUnits/Player/Camera3D2" instance=ExtResource("2_6ahe1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 5, -7.5)
+font_size = 80
+
+[node name="Clock" parent="PlayableUnits/Player/Camera3D2" instance=ExtResource("3_kfa7k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -7.5)
+
+[node name="Background" parent="." instance=ExtResource("6_xb4xh")]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, -10)

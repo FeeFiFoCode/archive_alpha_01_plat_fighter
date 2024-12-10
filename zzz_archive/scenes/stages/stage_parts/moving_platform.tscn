@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://d2fyoh5oxsjnc"]
+
+[ext_resource type="Script" path="res://scripts/move_plat.gd" id="1_jvedw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cs5us"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_swuwc"]
+
+[sub_resource type="Animation" id="Animation_c33ph"]
+resource_name = "smash_ville_move_left_loop"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 7, 9, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 5, -0.5), Vector3(-15, 5, -0.5), Vector3(-15, 5, -0.5), Vector3(0, 5, -0.5), Vector3(0, 5, -0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_srmlq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 5, -0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_1necc"]
+resource_name = "smash_ville_move_right_loop"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 7, 9, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 5, -0.5), Vector3(15, 5, -0.5), Vector3(15, 5, -0.5), Vector3(0, 5, -0.5), Vector3(0, 5, -0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_e2yth"]
+resource_name = "full_move_smashville"
+length = 60.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5, 10, 15, 20, 25, 35, 40, 45, 50, 55, 60),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 15, -0.5), Vector3(0, 15, -0.5), Vector3(0, 5, -0.5), Vector3(0, 5, -0.5), Vector3(-15, 5, -0.5), Vector3(-15, 5, -0.5), Vector3(15, 5, -0.5), Vector3(15, 5, -0.5), Vector3(0, 5, -0.5), Vector3(0, 5, -0.5), Vector3(0, 15, -0.5), Vector3(0, 15, -0.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jbav4"]
+_data = {
+"RESET": SubResource("Animation_srmlq"),
+"full_move_smashville": SubResource("Animation_e2yth"),
+"smash_ville_move_left_loop": SubResource("Animation_c33ph"),
+"smash_ville_move_right_loop": SubResource("Animation_1necc")
+}
+
+[node name="Plat" type="AnimatableBody3D"]
+transform = Transform3D(5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, 5, -0.5)
+script = ExtResource("1_jvedw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_cs5us")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_swuwc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "full_move_smashville"
+libraries = {
+"": SubResource("AnimationLibrary_jbav4")
+}
